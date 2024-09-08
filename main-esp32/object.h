@@ -1,0 +1,23 @@
+TFT_eSPI tft = TFT_eSPI();
+TFT_eSprite timeSprite = TFT_eSprite(&tft);
+TFT_eSprite dataSprite = TFT_eSprite(&tft);
+QRcode qrcode(&tft);
+AsyncWebServer server(80);
+AESLib aesLib;
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP, "192.168.22.1");
+ESP32Time rtc(25200);
+SoftwareSerial SerialNano(pinSerialNanoRX, pinSerialNanoTX);
+dimmerLamp dimmer(pinOutputDimmer, pinZeroCrossDimmer);
+PZEM004Tv30 pzem(Serial2, pinPZEMRX, pinPXEMTX);
+OneWire oneWire(pinDS);
+DallasTemperature sensors(&oneWire);
+Adafruit_HTU21DF htu = Adafruit_HTU21DF();
+
+SemaphoreHandle_t xTFTSemaphore;
+TaskHandle_t TaskHandleMain;
+TaskHandle_t TaskHandleTouchScreen;
+TaskHandle_t TaskHandlePID;
+TaskHandle_t TaskHandleNano;
+TaskHandle_t TaskHandleNavbar;
+TaskHandle_t TaskHandleDisplay;
